@@ -1,6 +1,23 @@
 import logging
 from uuid import uuid4
+import itertools
+import sys
+import time
 
+# Define the animation
+def animate():
+    for c in itertools.cycle(['|', '/', '-', '\\']):
+        sys.stdout.write('\rRunning ' + c)
+        sys.stdout.flush()
+        time.sleep(0.1)
+        
+def repeat(num):
+    def repeat_decorator(func):
+        def wrapper(*args, **kwargs):
+            for i in range(num):
+                func(*args, **kwargs)
+        return wrapper
+    return repeat_decorator
 
 # decorator
 from functools import wraps
