@@ -43,7 +43,7 @@ def get_and_check_workflow_metadata(vhandler):
         return wrap
     return decorator
 
-def debug_log(func):
+def debug(func):
     '''
     print function input & return for debug 
     '''
@@ -56,3 +56,17 @@ def debug_log(func):
         return ret
     return wrap
 
+def memoize(func):
+    '''
+    caches the results of previous calls and returns them if the same arguments are passed again
+    '''
+    cache = {}
+    @wraps(func)
+    def wrapper(*args):
+        if args in cache:
+            return cache[args]
+        else:
+            result = func(*args)
+            cache[args] = result
+            return result
+    return wrapper
